@@ -110,7 +110,9 @@
         </figure>
       </div>
 
-      <form class="form" id="lyst-form">
+      <form class="form" id="lyst-form" action="https://formspree.io/f/xppqjlqe" method="POST">
+        <input type="hidden" name="_subject" value="ТОВ «ЗНАМЯНКА 5» — звернення з сайту">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
         <div class="field">
           <label for="name">Ваше ім'я *</label>
           <input id="name" name="name" type="text" placeholder="Іван Петренко" required autocomplete="name">
@@ -142,12 +144,12 @@
           <label for="message">Повідомлення *</label>
           <textarea id="message" name="message" placeholder="Опишіть ваше питання або запит…" required></textarea>
         </div>
-        <label class="check"><input type="checkbox" required> Я погоджуюся з обробкою персональних даних відповідно до Закону України «Про захист персональних даних» *</label>
+        <label class="check"><input type="checkbox" name="consent" value="Так" required> Я погоджуюся з обробкою персональних даних відповідно до Закону України «Про захист персональних даних» *</label>
         <div class="form__foot">
           <button class="btn" type="submit">Надіслати повідомлення</button>
-          <span class="form__note">Лист відкриється у вашій поштовій програмі.</span>
+          <span class="form__note">Відповімо протягом робочого дня.</span>
         </div>
-        <div class="form__ok" role="status">Дякуємо! Якщо поштова програма не відкрилася, напишіть нам на energy@glosterinvestment.group</div>
+        <div class="form__ok" role="status" aria-live="polite"></div>
       </form>
     </div>
   </section>

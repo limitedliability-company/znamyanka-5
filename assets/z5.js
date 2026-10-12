@@ -21,24 +21,43 @@
     });
   }
 
-  // Форма → поштовий клієнт
+  // Форма → Formspree
   var form = document.getElementById('lyst-form');
   if (!form) return;
+  var box = form.querySelector('.form__ok');
+  var btn = form.querySelector('[type="submit"]');
+  var btnText = btn.textContent;
+  var show = function (text, isError) {
+    box.textContent = text;
+    box.classList.add('is-on');
+    box.classList.toggle('is-error', isError);
+  };
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var f = form.elements;
-    var lines = [
-      "Ім'я: " + f.name.value,
-      'Email: ' + f.email.value,
-      'Телефон: ' + f.phone.value,
-      'Компанія: ' + f.company.value,
-      '',
-      f.message.value
-    ];
-    var href = 'mailto:energy@glosterinvestment.group' +
-      '?subject=' + encodeURIComponent('ЗНАМЯНКА 5 — ' + f.topic.value) +
-      '&body=' + encodeURIComponent(lines.join('\n'));
-    window.location.href = href;
-    form.querySelector('.form__ok').classList.add('is-on');
+    var data = new FormData(form);
+    data.set('_subject', 'ТОВ «ЗНАМЯНКА 5» — ' + (data.get('topic') || 'звернення з сайту'));
+    btn.disabled = true;
+    btn.textContent = 'Надсилаємо…';
+    box.classList.remove('is-on', 'is-error');
+    fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; });
+      })
+      .then(function (res) {
+        if (res.ok) {
+          form.reset();
+          show("Дякуємо! Повідомлення надіслано — ми зв'яжемося з вами протягом робочого дня.", false);
+        } else {
+          var msg = res.d && res.d.errors ? res.d.errors.map(function (x) { return x.message; }).join(', ') : '';
+          show('Не вдалося надіслати' + (msg ? ': ' + msg : '') + '. Спробуйте ще раз або напишіть на energy@glosterinvestment.group', true);
+        }
+      })
+      .catch(function () {
+        show("Немає з'єднання з сервером. Спробуйте ще раз або напишіть на energy@glosterinvestment.group", true);
+      })
+      .then(function () {
+        btn.disabled = false;
+        btn.textContent = btnText;
+      });
   });
 })();
