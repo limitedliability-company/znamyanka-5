@@ -394,3 +394,9 @@ body.no-scroll { overflow: hidden; }
 /* ---------- Форма: стани ---------- */
 .form__ok.is-error { border-left-color: #A3352B; background: #F6E7E4; color: #6E2219; }
 .form .btn[disabled] { opacity: .6; cursor: progress; }
+
+/* ---------- Приміщення трейдерської діяльності ---------- */
+.addr-extra { display: block; font-size: 13px; line-height: 1.5; opacity: .8; }
+.foot li.addr-extra { margin-top: 10px; }
+.drawer__foot .addr-extra { margin-top: 4px; }
+.letterhead small.addr-extra { margin-top: 10px; }
